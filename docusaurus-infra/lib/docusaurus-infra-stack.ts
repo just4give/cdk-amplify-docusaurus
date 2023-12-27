@@ -31,7 +31,22 @@ export class DocusaurusInfraStack extends cdk.Stack {
           status: RedirectStatus.NOT_FOUND_REWRITE,
         },
       ],
-      //write amplify build spec
+      autoBranchCreation: {
+        // Automatically connect branches that match a pattern set
+        patterns: ["feature/*"],
+      },
+      autoBranchDeletion: true,
+      environmentVariables: {
+        _CUSTOM_IMAGE: "amplify:al2023",
+        // _LIVE_UPDATES: JSON.stringify([
+        //   {
+        //     pkg: "node",
+        //     type: "nvm",
+        //     version: "18.17.1",
+        //   },
+        // ]),
+      },
+
       buildSpec: codebuild.BuildSpec.fromObjectToYaml({
         version: 1,
         frontend: {
@@ -54,13 +69,21 @@ export class DocusaurusInfraStack extends cdk.Stack {
       }),
     });
 
-    amplifyApp.addBranch("main", {
+    const mainBranch = amplifyApp.addBranch("main", {
       stage: "PRODUCTION",
     });
 
-    //Drop down to L1 to allow new NextJS architecture
-    const cfnAmplifyApp = amplifyApp.node.defaultChild as CfnApp;
-    cfnAmplifyApp.platform = "WEB_COMPUTE";
+    const domain = amplifyApp.addDomain("iammithun.link", {
+      enableAutoSubdomain: true, // in case subdomains should be auto registered for branches
+      autoSubdomainCreationPatterns: ["feature/*"], // regex for branches that should auto register subdomains
+    });
+
+    // //domain.mapRoot(mainBranch);
+    domain.mapSubDomain(mainBranch, "docs");
+
+    //Set the platform to WEB_COMPUTE for NextJS SSR
+    // const cfnAmplifyApp = amplifyApp.node.defaultChild as CfnApp;
+    // cfnAmplifyApp.platform = "WEB_COMPUTE";
 
     new CfnOutput(this, "appId", {
       value: amplifyApp.appId,
