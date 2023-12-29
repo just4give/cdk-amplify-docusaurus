@@ -1,41 +1,7 @@
-# Website
+# Host React or Docusaurus or any Static Website On AWS Using Amplify and CDK
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+![](https://miro.medium.com/v2/resize:fit:2400/format:webp/1*6A-XzyEECW0qEu0M6gJpjQ.jpeg)
 
-### Installation
+Read the full article on [medium](https://medium.com/@mithundotdas/%EF%B8%8Fhost-react-or-docusaurus-or-any-static-website-on-aws-using-amplify-and-cdk-435b7bca4f03)
 
-```
-$ yarn
-```
-
-### Local Development
-
-```
-$ yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-### Build
-
-```
-$ yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+[Subscribe](https://mithundotdas.medium.com/subscribe) to my medium and get notified when I publish new articles 
